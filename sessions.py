@@ -3,13 +3,6 @@ import requests
 import time
 import sys
 
-for i in range(21):
-    sys.stdout.write('\r')
-    # the exact output you're looking for:
-    sys.stdout.write("[%-20s] %d%%" % ('='*i, 5*i))
-    sys.stdout.flush()
-    sleep(0.25)
-
 class Session:
 
     def __init__(self,token):
@@ -39,7 +32,7 @@ class Session:
         results=response.json().get('results')
         return results
 
-    def goodRequest(self,resposne):
+    def goodRequest(self,response):
         sc=response.status_code
         fail_string=f'Failed request with status {sc}: '
         if sc==200:
@@ -63,7 +56,8 @@ class Session:
             print(fail_string+'Request is taking too long')
             return False
         else:
-            pass
+            print(fail_string+'Unknown error')
+            return False
 
     def basic_request(self,params,additional_url=''):
         response=self.get_response(params,additional_url)
@@ -85,7 +79,12 @@ class Session:
     def full_request(self,params,additional_url=''):
         initial_offset=self.offset
         initial_response=self.get_response(params,additional_url)
+        if not self.goodRequest(initial_response): 
+            print('First response with error, returning None')
+            return
         self.row_count=initial_response.json().get('count')
+        initial_results=self.get_results(self,response)
+        self.results+=initial_results
         for offset in range(initial_offset+self.limit,self.row_count,self.limit):
             self.offset=offset
             results=self.basic_request(params,additional_url)
