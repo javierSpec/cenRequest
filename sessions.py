@@ -83,7 +83,7 @@ class Session:
             print('First response with error, returning None')
             return
         self.row_count=initial_response.json().get('count')
-        initial_results=self.get_results(self,response)
+        initial_results=self.get_results(response)
         self.results+=initial_results
         for offset in range(initial_offset+self.limit,self.row_count,self.limit):
             self.offset=offset
