@@ -1,4 +1,3 @@
-from urllib import response
 import requests
 import time
 import sys
@@ -83,7 +82,8 @@ class Session:
             print('First response with error, returning None')
             return
         self.row_count=initial_response.json().get('count')
-        initial_results=self.get_results(response)
+        print(f'Request contains {self.row_count} rows \n')
+        initial_results=self.get_results(initial_response)
         self.results+=initial_results
         for offset in range(initial_offset+self.limit,self.row_count,self.limit):
             self.offset=offset

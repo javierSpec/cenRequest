@@ -1,1 +1,1 @@
-from .api import get_cmgReal,get_systDx,substations
+from .api import get_cmgReal,get_systDx,substations,test_connection
