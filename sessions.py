@@ -96,7 +96,7 @@ class Session:
 
     @staticmethod
     def show_process_status(i,max_num):
-        p=int(i*100/max_num)
+        p=int(i*100/max_num) if max_num>0 else 100
         sys.stdout.write('\r')
         sys.stdout.write(f"Processing: {p}%")
         sys.stdout.flush()
