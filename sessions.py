@@ -37,17 +37,17 @@ class Session:
         if sc==200:
             return True
         elif sc==401:
-            print(fail_string+'Error with authentication')
-            return False
+            raise(fail_string+'Error with authentication')
+           
         elif sc==403:
-            print(fail_string+'Token not included or invalid')
-            return False
+            raise(fail_string+'Token not included or invalid')
+            
         elif sc==404:
-            print(fail_string+'URL Not Found')
-            return False
+            raise(fail_string+'URL Not Found')
+            
         elif sc==429:
-            print(fail_string+'Token exceeded allowed requests')
-            return False
+            raise (fail_string+'Token exceeded allowed requests')
+            
         elif sc==502:
             print(fail_string+'Server not responding')
             return False
