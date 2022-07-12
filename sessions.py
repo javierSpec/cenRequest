@@ -13,17 +13,16 @@ class Session:
         self.error_iterator=0
 
 
-    def config(self,limit=100,offset=0,basic_url="https://sipub.coordinador.cl/api/v2/recursos/",sleep_time=0.1):
+    def config(self,limit=100,offset=0,basic_url="https://sipub.api.coordinador.cl/sipub/api/v2/recursos/",sleep_time=0.1):
         self.limit=limit
         self.offset=offset
         self.basic_url=basic_url
         self.sleep_time=sleep_time
 
     def get_response(self,params,additional_url=''):
-        params.update({"limit":self.limit,"offset":self.offset})
-        headers={'authorization': f"Token {self.token}"}
+        params.update({"limit":self.limit,"offset":self.offset, "user_key":self.token})
         url=self.basic_url + additional_url
-        response = requests.get(url, headers=headers, params=params)
+        response = requests.get(url, params=params)
         self.last_response=response
         return response
 
@@ -82,6 +81,10 @@ class Session:
             print('First response with error, returning None')
             return
         self.row_count=initial_response.json().get('count')
+        
+        if self.row_count==0:
+            raise Exception('No results found')
+
         print(f'Request contains {self.row_count} rows \n')
         initial_results=self.get_results(initial_response)
         self.results+=initial_results

@@ -22,6 +22,12 @@ def get_cmgProg(token,fecha):
     additional_url='costo_marginal_programado'
     return generic_request(token, params, additional_url)
 
+def get_desv_gen(token, fecha):
+    additional_url = "desviacion_generacion_grupo_reporte"
+    params = {"fecha": fecha}
+    r = generic_request(token, params, additional_url)
+    return r
+
 def get_genReal(token,fecha):
     params={"fecha":fecha}
     additional_url='generacion_centrales'
@@ -41,6 +47,12 @@ def get_systDx(token,fecha):
     params={"fecha":fecha}
     additional_url='demanda_sistema_real'
     return generic_request(token,params,additional_url)
+
+def get_flujo_lineas(token,fecha):
+    params={"fecha": fecha}
+    additional_url="potencia_transitada"
+    r = generic_request(token, params=params, additional_url=additional_url)
+    return r
 
 def substations(token):
     params={}
