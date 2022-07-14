@@ -22,7 +22,7 @@ class Session:
     def get_response(self,params,additional_url=''):
         params.update({"limit":self.limit,"offset":self.offset, "user_key":self.token})
         url=self.basic_url + additional_url
-        response = requests.get(url, params=params)
+        response = requests.get(url, params=params, verify=False)
         self.last_response=response
         return response
 
