@@ -11,7 +11,26 @@ class Session:
         self.row_count=None
         self.last_response=None
         self.error_iterator=0
+        self.token_list  = ["fd8a8857a0da5f8a208316428ad9790a",
+                            "905df7a50919527cdb5075fb356be81c",
+                            "850da6e5730480c91b85c93f62c60f8c",
+                            "aad372f1da033807985c3c6b0ac0073b"
+                            "3b10b96b9299bd66e8686dc0a749f0ab"]
 
+        self.headers = headers = {
+                        'Accept': 'application/json, text/javascript, */*; q=0.01',
+                        'Accept-Language': 'es,es-ES;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+                        'Connection': 'keep-alive',
+                        'Origin': 'https://www.coordinador.cl',
+                        'Referer': 'https://www.coordinador.cl/',
+                        'Sec-Fetch-Dest': 'empty',
+                        'Sec-Fetch-Mode': 'cors',
+                        'Sec-Fetch-Site': 'same-site',
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/104.0.5112.102 Safari/537.36 Edg/104.0.1293.70',
+                        'sec-ch-ua': '"Chromium";v="104", " Not A;Brand";v="99", "Microsoft Edge";v="104"',
+                        'sec-ch-ua-mobile': '?0',
+                        'sec-ch-ua-platform': '"Windows"',
+                    }
 
     def config(self,limit=100,offset=0,basic_url="https://sipub.api.coordinador.cl/sipub/api/v2/recursos/",sleep_time=0.1):
         self.limit=limit
@@ -22,7 +41,13 @@ class Session:
     def get_response(self,params,additional_url=''):
         params.update({"limit":self.limit,"offset":self.offset, "user_key":self.token})
         url=self.basic_url + additional_url
-        response = requests.get(url, params=params, verify=False)
+        if additional_url=="demanda_sistema_real":
+            try:
+                response = requests.get(url, params=params, verify=True)
+            except:  
+                response = requests.get(url, params=params, headers = self.headers, verify=True)
+        else:
+            response = requests.get(url, params=params, verify=True)
         self.last_response=response
         return response
 
