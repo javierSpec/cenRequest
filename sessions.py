@@ -32,7 +32,7 @@ class Session:
                         'sec-ch-ua-platform': '"Windows"',
                     }
 
-    def config(self,limit=100,offset=0,basic_url="https://sipub.api.coordinador.cl/sipub/api/v2/recursos/",sleep_time=0.1):
+    def config(self,limit=100,offset=0,basic_url="https://sipub.api.coordinador.cl/api/v2/recursos/",sleep_time=0.1):
         self.limit=limit
         self.offset=offset
         self.basic_url=basic_url
